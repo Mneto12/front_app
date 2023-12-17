@@ -8,7 +8,7 @@ import axios from "axios";
 
 interface ContextProps {
     types: PokeType[]
-    FilterSelected: PokeType
+    filterSelected: PokeType
     pokemonsFiltered: string[] | null
     changeTypeSelected: (type: PokeType) => void
 }
@@ -52,6 +52,8 @@ const PokemonProvider = ({ children }: any) => {
     const getAllPokemons = async () => {
         const { data } = await axios.get(AllPokemonsUrl);
 
+        console.log(data)
+
         let pokemons = data?.results?.map(
         (pokemon: AllPokemonsResult) => pokemon?.url
         );
@@ -74,7 +76,7 @@ const PokemonProvider = ({ children }: any) => {
                 changeTypeSelected
             }}
         >
-            {Children}
+            {children}
         </PokemonContext.Provider>
     )
 }

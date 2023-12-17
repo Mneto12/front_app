@@ -1,7 +1,7 @@
 import { usePokemon } from "../hooks/usePokemon"
 import { background } from "../utils/backgroundByType"
 import { Link } from "react-router-dom"
-// TODO: Import loader
+import { Loader } from "rsuite"
 // TODO: Import scss
 
 interface Props {
@@ -18,7 +18,6 @@ const PokemonCard = ({url}: Props) => {
     <Link to={`/${pokemon?.id}`}>
         <div>
             <span style={{borderColor: backgroundSelected}}>#{pokemon?.id}</span>
-            // TODO: condicional
             {pokemon?.sprites?.other?.dream_world?.front_default ||
             pokemon?.sprites?.front_default ? (
                 <img 
@@ -30,7 +29,8 @@ const PokemonCard = ({url}: Props) => {
                 />
             ):(
                 <div className="none">
-                    // TODO: make loader
+                    // TODO: Fix problems process is not defined
+                    {/* <Loader center size="md" /> */}
                 </div>
             )}
             <div>
