@@ -14,10 +14,9 @@ const PokemonList = ({pokemonsUrls, page, perPage}: Props) => {
   return (
     <div>
         {
-            pokemonsUrls
-                ?.map((pokemonsUrls) => (
+            pokemonsUrls?.map((pokemonsUrls) => (
                     <PokemonCard key={pokemonsUrls} url={pokemonsUrls} />
-                ))
+            ))
         }
     </div>
   )

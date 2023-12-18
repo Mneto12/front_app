@@ -30,6 +30,7 @@ const PokemonCard = ({url}: Props) => {
             ):(
                 <div className="none">
                     // TODO: Fix problems process is not defined
+                    <h1>Loading...</h1>
                     {/* <Loader center size="md" /> */}
                 </div>
             )}

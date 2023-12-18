@@ -1,4 +1,4 @@
-import { Children, createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { 
     PokeType,
     AllPokemonsResult,
@@ -51,8 +51,6 @@ const PokemonProvider = ({ children }: any) => {
 
     const getAllPokemons = async () => {
         const { data } = await axios.get(AllPokemonsUrl);
-
-        console.log(data)
 
         let pokemons = data?.results?.map(
         (pokemon: AllPokemonsResult) => pokemon?.url
