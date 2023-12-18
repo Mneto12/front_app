@@ -11,6 +11,7 @@ interface ContextProps {
     filterSelected: PokeType
     pokemonsFiltered: string[] | null
     changeTypeSelected: (type: PokeType) => void
+    getPokemonByName: (name: string) => void
 }
 
 export const PokemonContext = createContext<ContextProps>({} as ContextProps)
@@ -25,9 +26,26 @@ const PokemonProvider = ({ children }: any) => {
 
     const [AllPokemons, setAllPokemons] = useState(null)
     const [pokemonsFiltered, setPokemonsFiltered] = useState(null)
+    const [pokemons, setPokemons] = useState(null)
 
     const [types, setTypes] = useState([defaultState])
     const [filterSelected, setFilteredSelected] = useState(defaultState)
+
+    const getPokemonByName = async (name: string) => {
+        console.log(name)
+
+        if (name !== '') {
+            let pokemonByName = pokemons.filter((pokemon: AllPokemonsResult) => pokemon.name === name)
+            console.log(pokemonByName)
+            if( pokemonByName.length !== 0 ) {
+                setPokemonsFiltered(pokemonByName.map((pokemon: AllPokemonsResult) => pokemon?.url))
+            } else {
+                setPokemonsFiltered(AllPokemons)
+            }
+        } else {
+            setPokemonsFiltered(AllPokemons)
+        }
+    }
 
     const changeTypeSelected = async (type: PokeType) => {
         setFilteredSelected(type)
@@ -37,6 +55,8 @@ const PokemonProvider = ({ children }: any) => {
         let pokemons = data?.pokemon?.map(
             ({ pokemon }: PokemonsByTypeResult) => pokemon?.url
         )
+
+        console.log(pokemons)
 
         type.name !== 'All'
             ? setPokemonsFiltered(pokemons)
@@ -56,6 +76,7 @@ const PokemonProvider = ({ children }: any) => {
         (pokemon: AllPokemonsResult) => pokemon?.url
         );
 
+        setPokemons(data?.results)
         setAllPokemons(pokemons);
         setPokemonsFiltered(pokemons);
     }
@@ -71,7 +92,8 @@ const PokemonProvider = ({ children }: any) => {
                 types,
                 filterSelected,
                 pokemonsFiltered,
-                changeTypeSelected
+                changeTypeSelected,
+                getPokemonByName
             }}
         >
             {children}

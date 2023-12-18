@@ -29,8 +29,8 @@ const PokemonCard = ({url}: Props) => {
                 />
             ):(
                 <div className="none">
-                    // TODO: Fix problems process is not defined
                     <h1>Loading...</h1>
+                    // TODO: Fix problems process is not defined with loader
                     {/* <Loader center size="md" /> */}
                 </div>
             )}

@@ -1,8 +1,9 @@
 import { useContext } from "react"
 import { PokemonContext } from "../context/PokemonContext"
 import PokemonList from "../components/PokemonList"
-import { Pagination } from "../components/Pagination"
+import { Pagination } from "../components/PokemonPagination"
 import { usePagination } from "../hooks/usePagination"
+import { Filters } from "../components/PokemonFilter"
 
 const Home = () => {
   const { pokemonsFiltered } = useContext(PokemonContext)
@@ -15,6 +16,7 @@ const Home = () => {
         <header>
             <h1>PokeDex</h1>
         </header>
+        <Filters />
         <PokemonList 
           pokemonsUrls={pokemonsFiltered}
           page={page}
