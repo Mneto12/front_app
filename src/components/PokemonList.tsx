@@ -6,17 +6,25 @@ import PokemonCard from "./PokemonCard"
 
 interface Props {
     pokemonsUrls?: string[] | null
-    page?: number
-    perPage?: number
+    page: number
+    perPage: number
 }
 
 const PokemonList = ({pokemonsUrls, page, perPage}: Props) => {
+  console.log(pokemonsUrls)
   return (
     <div>
         {
-            pokemonsUrls?.map((pokemonsUrls) => (
+          // @ts-ignore
+          pokemonsUrls && pokemonsUrls.length > 0 ? (
+            pokemonsUrls
+            ?.slice((page - 1) * perPage, (page - 1) * perPage + perPage)
+            ?.map((pokemonsUrls) => (
                     <PokemonCard key={pokemonsUrls} url={pokemonsUrls} />
             ))
+          ) : (
+            <h1>No hay pokemones</h1>
+          )
         }
     </div>
   )

@@ -11,12 +11,13 @@ interface ContextProps {
     filterSelected: PokeType
     pokemonsFiltered: string[] | null
     changeTypeSelected: (type: PokeType) => void
+    getPokemonByName: (name: string) => void
 }
 
 export const PokemonContext = createContext<ContextProps>({} as ContextProps)
 
 const PokemonProvider = ({ children }: any) => {
-    let AllPokemonsUrl = 'https://pokeapi.co/api/v2/pokemon?limit=10000&offset=0'
+    let AllPokemonsUrl = 'http://localhost:8000/api/pokemons/getAll'
 
     const defaultState: PokeType = {
         name: 'All',
@@ -25,9 +26,23 @@ const PokemonProvider = ({ children }: any) => {
 
     const [AllPokemons, setAllPokemons] = useState(null)
     const [pokemonsFiltered, setPokemonsFiltered] = useState(null)
+    const [pokemons, setPokemons] = useState(null)
 
     const [types, setTypes] = useState([defaultState])
     const [filterSelected, setFilteredSelected] = useState(defaultState)
+
+    const getPokemonByName = async (name: string) => {
+        if (name !== '') {
+            let pokemonByName = pokemons.filter((pokemon: AllPokemonsResult) => pokemon.name === name)
+            if( pokemonByName.length !== 0 ) {
+                setPokemonsFiltered(pokemonByName)
+            } else {
+                setPokemonsFiltered(AllPokemons)
+            }
+        } else {
+            setPokemonsFiltered(AllPokemons)
+        }
+    }
 
     const changeTypeSelected = async (type: PokeType) => {
         setFilteredSelected(type)
@@ -37,6 +52,8 @@ const PokemonProvider = ({ children }: any) => {
         let pokemons = data?.pokemon?.map(
             ({ pokemon }: PokemonsByTypeResult) => pokemon?.url
         )
+
+        console.log(pokemons)
 
         type.name !== 'All'
             ? setPokemonsFiltered(pokemons)
@@ -52,12 +69,15 @@ const PokemonProvider = ({ children }: any) => {
     const getAllPokemons = async () => {
         const { data } = await axios.get(AllPokemonsUrl);
 
-        let pokemons = data?.results?.map(
-        (pokemon: AllPokemonsResult) => pokemon?.url
-        );
+        console.log(data)
 
-        setAllPokemons(pokemons);
-        setPokemonsFiltered(pokemons);
+        // let pokemons = data?.results?.map(
+        // (pokemon: AllPokemonsResult) => pokemon?.url
+        // );
+
+        setPokemons(data)
+        setAllPokemons(data);
+        setPokemonsFiltered(data);
     }
 
     useEffect(() => {
@@ -71,7 +91,8 @@ const PokemonProvider = ({ children }: any) => {
                 types,
                 filterSelected,
                 pokemonsFiltered,
-                changeTypeSelected
+                changeTypeSelected,
+                getPokemonByName
             }}
         >
             {children}

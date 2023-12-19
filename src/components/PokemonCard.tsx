@@ -8,34 +8,28 @@ interface Props {
     url: string
 }
 
-const PokemonCard = ({url}: Props) => {
-    const { pokemon } = usePokemon(url)
-
+const PokemonCard = ({url}: any) => {
     // @ts-ignore
-    const backgroundSelected = background[pokemon?.types[0]?.type?.name]
+    const backgroundSelected = background[url?.type[0]]
   
     return (
-    <Link to={`/${pokemon?.id}`}>
+    <Link to={`/${url?.name}`}>
         <div>
-            <span style={{borderColor: backgroundSelected}}>#{pokemon?.id}</span>
-            {pokemon?.sprites?.other?.dream_world?.front_default ||
-            pokemon?.sprites?.front_default ? (
+            <span style={{borderColor: backgroundSelected}}>#{url?.IdPoke}</span>
+            {url?.image ? (
                 <img 
-                    src={
-                        pokemon?.sprites?.other?.dream_world?.front_default ||
-                        pokemon?.sprites?.front_default
-                    }
-                    alt={pokemon.name} 
+                    src={url.image}
+                    alt={url.name} 
                 />
             ):(
                 <div className="none">
-                    // TODO: Fix problems process is not defined
                     <h1>Loading...</h1>
+                    // TODO: Fix problems process is not defined with loader
                     {/* <Loader center size="md" /> */}
                 </div>
             )}
             <div>
-                {pokemon?.name}
+                {url?.name}
             </div>
         </div>
     </Link>

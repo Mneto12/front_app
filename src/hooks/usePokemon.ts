@@ -1,20 +1,17 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { IPokemon } from "../interfaces/interfaces";
+import axios from "axios"
+import { useState } from "react"
+import { useEffect } from "react"
 
-export const usePokemon = (url?: string, id?: string) => {
-    const [pokemon, setPokemon] = useState<null | undefined | IPokemon>()
+export const usePokemon = (url?: string, name?: string) => {
+    const [pokemon, setPokemon] = useState<null | undefined>()
 
     const getPokemon = async () => {
-        if (url) {
-            const { data }: any = await axios.get(url)
-
-            setPokemon(data)
+        if(url){
+            console.log('nada')
         }
-
-        if (id) {
+        if (name) {
             const { data }: any = await axios.get(
-                `https://pokeapi.co/api/v2/pokemon/${id}`
+                `http://localhost:8000/api/pokemons/${name}`
             )
 
             setPokemon(data)
@@ -22,8 +19,9 @@ export const usePokemon = (url?: string, id?: string) => {
     }
 
     useEffect(() => {
+        console.log('use fecth')
         getPokemon()
-    }, [])
+    },[])
 
     return { pokemon }
 }
