@@ -8,7 +8,6 @@ import { Filters } from "../components/PokemonFilter"
 const Home = () => {
   const { pokemonsFiltered } = useContext(PokemonContext)
   const { page, nextPage, previousPage, backToHome} = usePagination()
-
   let perPage = 10
 
   return (
