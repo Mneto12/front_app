@@ -5,13 +5,15 @@ import { Pagination } from "../components/PokemonPagination"
 import { usePagination } from "../hooks/usePagination"
 import { Filters } from "../components/PokemonFilter"
 
+import styles from '../styles/home.module.scss'
+
 const Home = () => {
   const { pokemonsFiltered } = useContext(PokemonContext)
-  const { page, nextPage, previousPage, backToHome} = usePagination()
+  const { page, nextPage, previousPage} = usePagination()
   let perPage = 10
 
   return (
-    <div>
+    <div className={styles.home}>
         <header>
             <h1>PokeDex</h1>
         </header>

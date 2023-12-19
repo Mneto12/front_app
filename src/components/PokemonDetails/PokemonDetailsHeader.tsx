@@ -1,20 +1,22 @@
-import { useNavigate } from "react-router-dom";
-import { IPokemon } from "../../interfaces/interfaces";
+import { useNavigate } from "react-router-dom"
+import { IPokemon } from "../../interfaces/interfaces"
 
-import styles from "./styles.module.scss";
+import styles from '../../styles/pokeDetailsHeader.module.scss'
+import { PokeballIconBig } from "../../assets/pokeball";
+import { ArrowLeftIcon } from "../../assets/arrows";
 
 interface Props {
-  pokemon: IPokemon | null;
+  pokemon: IPokemon | null
 }
 
-export const Header = ({ pokemon }: Props) => {
+export const PokeDetailsHeader = ({ pokemon }: Props) => {
   const navigate = useNavigate();
 
   return (
     <header>
-      {/* <PokeballIconBig className={styles.pokeball} /> */}
+      <PokeballIconBig className={styles.pokeball} />
       <div className={styles.left}>
-        {/* <ArrowLeftIcon onClick={() => navigate(-1)} /> */}
+        <ArrowLeftIcon onClick={() => navigate(-1)} />
 
         <span>{pokemon?.name}</span>
       </div>

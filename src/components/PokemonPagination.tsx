@@ -1,3 +1,5 @@
+import styles from '../styles/pagination.module.scss'
+
 interface Props {
     perPage: number
     page: number
@@ -16,7 +18,7 @@ export const Pagination = ({
     const lastPage = Math.ceil(maxItems / perPage);
 
     return (
-        <div>
+        <div className={styles.pagination}>
             <button disabled={page === 1} onClick={previousPage}>
                 Anterior
             </button>

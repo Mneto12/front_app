@@ -1,17 +1,16 @@
 import { createContext, useEffect, useState } from "react";
 import { 
-    PokeType,
     AllPokemonsResult,
-    PokemonsByTypeResult
  } from "../interfaces/types";
 import axios from "axios";
 
 interface ContextProps {
-    types: PokeType[]
-    filterSelected: PokeType
+    pokemon: any
     pokemonsFiltered: string[] | null
-    changeTypeSelected: (type: PokeType) => void
     getPokemonByName: (name: string) => void
+    getPokemon: (name: string) => void
+    IsLoading: boolean
+    setIsLoading: any
 }
 
 export const PokemonContext = createContext<ContextProps>({} as ContextProps)
@@ -19,22 +18,18 @@ export const PokemonContext = createContext<ContextProps>({} as ContextProps)
 const PokemonProvider = ({ children }: any) => {
     let AllPokemonsUrl = 'http://localhost:8000/api/pokemons/getAll'
 
-    const defaultState: PokeType = {
-        name: 'All',
-        url: AllPokemonsUrl
-    }
-
     const [AllPokemons, setAllPokemons] = useState(null)
     const [pokemonsFiltered, setPokemonsFiltered] = useState(null)
     const [pokemons, setPokemons] = useState(null)
-
-    const [types, setTypes] = useState([defaultState])
-    const [filterSelected, setFilteredSelected] = useState(defaultState)
+    const [pokemon, setPokemon] = useState(null)
+    const [IsLoading, setIsLoading] = useState(true)
 
     const getPokemonByName = async (name: string) => {
         if (name !== '') {
+            // @ts-ignore
             let pokemonByName = pokemons.filter((pokemon: AllPokemonsResult) => pokemon.name === name)
             if( pokemonByName.length !== 0 ) {
+                console.log(pokemonByName)
                 setPokemonsFiltered(pokemonByName)
             } else {
                 setPokemonsFiltered(AllPokemons)
@@ -44,55 +39,32 @@ const PokemonProvider = ({ children }: any) => {
         }
     }
 
-    const changeTypeSelected = async (type: PokeType) => {
-        setFilteredSelected(type)
-
-        const { data } = await axios.get(type?.url!)
-
-        let pokemons = data?.pokemon?.map(
-            ({ pokemon }: PokemonsByTypeResult) => pokemon?.url
-        )
-
-        console.log(pokemons)
-
-        type.name !== 'All'
-            ? setPokemonsFiltered(pokemons)
-            : setPokemonsFiltered(AllPokemons)
-    }
-
-    const getPokemonsType = async () => {
-        const { data } = await axios.get("https://pokeapi.co/api/v2/type")
-
-        setTypes([...types, ...data.results])
+    const getPokemon = async (name: string) => {
+        const { data }: any = await axios.get(`http://localhost:8000/api/pokemons/${name}`)
+        if ( data ) setPokemon(data)
     }
 
     const getAllPokemons = async () => {
         const { data } = await axios.get(AllPokemonsUrl);
-
-        console.log(data)
-
-        // let pokemons = data?.results?.map(
-        // (pokemon: AllPokemonsResult) => pokemon?.url
-        // );
-
         setPokemons(data)
         setAllPokemons(data);
         setPokemonsFiltered(data);
     }
 
     useEffect(() => {
-        getPokemonsType()
         getAllPokemons()
+        getPokemon('pikachu')
     }, [])
 
     return (
         <PokemonContext.Provider
             value={{
-                types,
-                filterSelected,
                 pokemonsFiltered,
-                changeTypeSelected,
-                getPokemonByName
+                pokemon,
+                getPokemon,
+                getPokemonByName,
+                IsLoading,
+                setIsLoading
             }}
         >
             {children}

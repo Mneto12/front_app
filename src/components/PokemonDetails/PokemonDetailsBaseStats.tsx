@@ -1,22 +1,20 @@
 // import { HeightIcon, WeightIcon } from "../../../../assets/stats";
 import { IPokemon } from "../../interfaces/interfaces";
 
-import styles from "./styles.module.scss";
+import styles from '../../styles/pokeDetailsStats.module.scss'
 
 interface Props {
   pokemon: IPokemon | null;
 }
 
-export const Stats = ({ pokemon }: Props) => {
+export const PokemonDetailBaseStats = ({ pokemon }: Props) => {
   return (
-    <div>
-      <div>
-        {/* <WeightIcon /> */}
+    <div className={styles.stats}>
+      <div className={styles.item}>
         <span>{pokemon?.weight} </span>
         <p>Weight</p>
       </div>
-      <div>
-        {/* <HeightIcon /> */}
+      <div className={styles.item}>
         <span>{pokemon?.height} </span>
         <p>Height</p>
       </div>

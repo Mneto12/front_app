@@ -1,14 +1,9 @@
-import { useContext, useState, ChangeEvent, KeyboardEvent, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useContext, useState, ChangeEvent, useEffect } from "react";
 import { PokemonContext } from "../context/PokemonContext";
-import { usePagination } from "../hooks/usePagination";
-import { PokeType } from "../interfaces/types";
 
-// TODO: import scss
+import styles from '../styles/filter.module.scss'
 
 export const Filters = () => {
-  // const [open, setOpen] = useState(false)
-
   const [inputValue, setInputValue] = useState<string>('');
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -20,27 +15,16 @@ export const Filters = () => {
     getPokemonByName(inputValue);
   }, [inputValue])
 
-  const navigate = useNavigate()
-
-  const { types, filterSelected, getPokemonByName } = useContext(PokemonContext)
-
-  // const { changePage } = usePagination()
-
-  // const onChangeType = (type: PokeType) => {
-  //   changePage(1)
-
-  //   navigate("/?page=1")
-    
-  //   changeTypeSelected(type)
-  // };
+  const { getPokemonByName } = useContext(PokemonContext)
 
   return (
-    <div>
+    <div className={styles.divFilter}>
       <input
+      className={styles.inputPokedex}
       type="text"
       value={inputValue}
       onChange={handleInputChange}
-      placeholder="Escribe algo..."
+      placeholder="Escribe un pokemon"
     />
     </div>
   )
